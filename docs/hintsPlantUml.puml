@@ -1,0 +1,122 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+'!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!define OSAPUML https://raw.githubusercontent.com/Crashedmind/PlantUML-opensecurityarchitecture2-icons/master
+!include DEVICONS/angular.puml
+!include DEVICONS/java.puml
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+!include OSAPUML/Common.puml
+!include OSAPUML/User/all.puml
+
+!$COLOR_B_1 = "#2d004b"
+
+'LAYOUT_AS_SKETCH()
+'LAYOUT_LANDSCAPE()
+'LAYOUT_TOP_DOWN()
+LAYOUT_LEFT_RIGHT()
+'HIDE_STEREOTYPE()
+
+AddElementTag("vermelho", $borderColor="#d73027")
+AddElementTag("laranja", $fontColor="orange")
+AddElementTag("all", $fontColor="#fdae61", $borderColor=$COLOR_B_1, $bgColor="#444444", $shape=RoundedBoxShape())
+AddRelTag("tCustom", $textColor="blue", $lineColor="purple", $lineStyle = DashedLine())
+AddExternalPersonTag("anonymous_ext", $sprite="osa_user_black_hat", $legendText="anonymous user")
+
+System_Boundary(aSB,'Limite do Sistema'){
+'(alias, label, *techn, ?descr, ?sprite, ?tags, $link)
+    Container(aCt, "Container", "Tecnologia", "Descrição container")
+    ContainerDb(aCtDb, "Container DB", "Tecnologia DB", "Descrição container DB")
+    ContainerQueue(aCtQ, "Container fila", "Tecnologia fila", "Descrição container fila")
+
+'(alias, label, ?descr, ?sprite, ?tags, $link)
+    System(aS, "Sistema", Descrição sistema")
+    SystemDb(aSDb, "Sistema DB", Descrição sistema DB")
+    SystemQueue(aSQ, "Sistema fila", Descrição sistema fila")
+
+'(alias, label, *techn, ?descr, ?sprite, ?tags, $link)
+    Component(aCp, "Componente", "Tecnologia", "Descrição Componente")
+    ComponentDb(aCpDb, "Componente DB", "Tecnologia Db", "Descrição Componente DB")
+    ComponentQueue(aCpQ, "Componente fila", "Tecnologia fila", "Descrição Componente fila")
+}
+'(alias, label, ?tags, $link)
+Enterprise_Boundary(aEB, "Limites empresa"){
+'(alias, label, ?descr, ?sprite, ?tags, $link)
+    Container_Ext(aCtExt, "Container externo", "Tecnologia", "Descrição container")
+    ContainerDb_Ext(aCtDbExt, "Container externo DB", "Tecnologia DB", "Descrição container DB")
+    ContainerQueue_Ext(aCtQExt, "Container externo fila", "Tecnologia fila", "Descrição container fila")
+
+    System_Ext(aSExt, "Sistema externo", Descrição sistema")
+    SystemDb_Ext(aSDbExt, "Sistema externo DB", Descrição sistema DB")
+    SystemQueue_Ext(aSQExt, "Sistema externo fila", Descrição sistema fila")
+
+    Component_Ext(aCpExt, "Componente externo", "Tecnologia", "Descrição Componente")
+    ComponentDb_Ext(aCpDbExt, "Componente externo DB", "Tecnologia Db", "Descrição Componente DB")
+    ComponentQueue_Ext(aCpQExt, "Componente externo fila", "Tecnologia fila", "Descrição Componente fila")
+}
+
+
+'(alias, label, ?tags, $link)
+Container_Boundary(aCB, "Limites container"){
+'(alias, label, ?type, ?tags, $link)
+    Boundary(aBound, "dashed box", "Tipo")
+    Container(spa, "SPA", "angular", "The main interface", $tags="vermelho+laranja", $sprite="angular")
+
+    SetPropertyHeader("H1","H2", "H3")
+    AddProperty("P1", "V1", "D1")
+    AddProperty("P2", "V2", "D2")
+'(alias, label, ?descr, ?sprite, ?tags, $link)
+    Person(aP,  "Pessoa", "descrição", $tags="all")
+    Person(aP2, "Pessoa", "descrição", $sprite="person2", $link="https://github.com/plantuml-stdlib/C4-PlantUML")
+    Person_Ext(aPExt, , "Pessoa Externa", $tags="anonymous_ext")
+}
+
+
+
+'(from, to, label, ?techn, ?descr, ?sprite, ?tags, $link)
+'Rel(aSB, aEB, "Relacionamento")
+
+WithoutPropertyHeader()
+AddProperty("PropC1", "ValueC1")
+AddProperty("PropC2", "ValueC2")
+BiRel(aSB, aEB, "Relacionamento  bidirecional", "olar", $tags="tCustom")
+
+Rel_U(aSDb, aCtDb, "Relacionamento cima")
+Rel_D(aSDb, aCpDb, "Relacionamento baixo")
+Rel_L(aSDb, aS, "Relacionamento esquerda")
+Rel_R(aSDb, aSQ, "Relacionamento direita")
+Rel_Up(aSDbExt, aCtDbExt, "Relacionamento cima")
+
+Rel_Down(aSDbExt, aCpDbExt, "Relacionamento baixo")
+Rel_Left(aSDbExt, aSExt, "Relacionamento esquerda")
+Rel_Right(aSDbExt, aSQExt, "Relacionamento direita")
+
+'Lay_U(a, b)
+'Lay_R(a, c)
+'Lay_D(a, d)
+'Lay_L(a, e)
+Rel_L(aCtDb,aCt,"Des", $sprite="person2")
+Rel_R(aCtDb,aCtQ,"Des", $sprite="person2,scale=0.5")
+Rel_L(aCpDb,aCp,"Des")
+Rel_R(aCpDb,aCpQ,"Des")
+Rel_L(aCtDbExt,aCtExt,"Des")
+Rel_R(aCtDbExt,aCtQExt,"Des")
+Rel_L(aCpDbExt,aCpExt,"Des")
+Rel_R(aCpDbExt,aCpQExt,"Des")
+'Deployment_Node(alias, label, ?type, ?descr, ?sprite, ?tags, $link)
+'Node(alias, label, ?type, ?descr, ?sprite, ?tags, $link): short name of Deployment_Node()
+'Node_L(alias, label, ?type, ?descr, ?sprite, ?tags, $link): left aligned Node()
+'Node_R(alias, label, ?type, ?descr, ?sprite, ?tags, $link): right aligned Node()
+
+'SHOW_LEGEND()
+SHOW_FLOATING_LEGEND()
+
+footer drawn with PlantUML v. %version() and C4-PlantUML v. C4Version()
+@enduml

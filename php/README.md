@@ -30,6 +30,12 @@ Excluir container e imagem
 ```sh
 docker stop myphp7-fpm && docker rm myphp7-fpm && docker rmi myphp:7-fpm
 ```
+----------
+Compose
+
+```sh
+docker-compose --env-file ./conf/envs/php7_up_dev.env config up
+```
 
 # PHP 8
 
@@ -56,24 +62,31 @@ Excluir container e imagem
 ```sh
 docker stop myphp8.1-fpm && docker rm myphp8.1-fpm && docker rmi myphp:8.1-fpm
 ```
+----------
+Compose
+
+```sh
+docker-compose --env-file ./conf/envs/php8_up_dev.env config up
+```
 # PHP 8-apache
 
 Construir imagem 
 
 ```sh
-docker build -f php-apache.dockerfile -t myphp:8.1-apache .
+docker build -f php:8.1-apache.dockerfile -t myphp:8.1-apache .
 ```
 ----------
 Container 
 
 ```sh
 docker run --name=myphp8.1-apache -w /app -v $(pwd):/app -p 80:80 -d myphp:8.1-apache
+
 ```
 ----------
 Container temporario
 
 ```sh
-docker run --rm -it -w /app -v $(pwd):/app -p 80:80 myphp:8.1-apache  bash
+docker run --rm -it -w /app -v $(pwd):/app -p 80:80 myphp:8.1-apache  bash 
 ```
 ----------
 Excluir container e imagem

@@ -10,10 +10,11 @@ RUN apt-get update && apt-get install -y \
         libpng-dev 
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY apache2.conf /etc/apache2/apache2.conf
+# COPY conf/apache/.conf /etc/apache2/apache2.conf
 
 
-ENV APACHE_DOCUMENT_ROOT /path/to/new/root
+ENV APACHE_DOCUMENT_ROOT /app
+WORKDIR ${APACHE_DOCUMENT_ROOT}
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \

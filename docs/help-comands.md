@@ -19,7 +19,7 @@ docker build -f php-fpm.dockerfile -t myphp:8.1-fpm .
 Node
 
 ```sh
-doc[ker build -f php-fpm.dockerfile -t myphp:8.1-fpm .
+docker build -f php-fpm.dockerfile -t myphp:8.1-fpm .
 ```
 docker stop nodelocal && docker rm nodelocal && docker rmi node12:base
 docker build -f ./node.dockerfile -t node12:base .

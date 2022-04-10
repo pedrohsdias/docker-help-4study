@@ -1,0 +1,1 @@
+docker run --rm -it  -v D:\projetos\ubs\app:/app -w /app -p 3000:3000 node:14 bash
