@@ -1,30 +1,40 @@
 FROM composer:2.2 AS composer
-#RUN composer about
+RUN composer about
 
-FROM php:8.1-fpm
+FROM php:8.1-fpm-alpine
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk add --no-cache $PHPIZE_DEPS \
         vim \
         zip \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev 
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libxml2-dev
 
-RUN pecl install xdebug
+RUN pecl install xdebug-3.1.5
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg 
 
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install -j$(nproc) gd soap  mysqli pdo pdo_mysql
 
-RUN docker-php-ext-enable xdebug
+RUN docker-php-ext-enable xdebug pdo_mysql 
 
+
+COPY conf/xdebug.ini  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-ADD conf/php/xdebug.ini  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN groupadd -g 1000 www
+# RUN addgroup -S www && adduser -S www -G www
+# USER www
 
+RUN touch /tmp/xdebug_remote.log  \
+        &&  chmod 666 /tmp/xdebug_remote.log 
+        #&& chown www:www /var/log/xdebug_remote.log
+WORKDIR /api
 EXPOSE 9003 9000
 
-CMD ["tail","-f","/dev/null"]
+
+# CMD ["tail","-f","/dev/null"]

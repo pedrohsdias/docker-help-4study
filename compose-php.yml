@@ -2,20 +2,26 @@ version: "3.9"
 
 services:
   php-fpm: 
-    container_name: php_${PHP_VERSION}
-    image: myphp:${PHP_VERSION}
+    container_name: myphp_fpm8
+    image: myphp:fpm-8
     build: 
-      context: .
-      dockerfile: php:${PHP_VERSION}.dockerfile
-    env_file:
-      - php-dev.env
+      context: ./php
+      dockerfile: Dockerfile.php:8.1-fpm
     environment:
       - PHP_IDE_CONFIG=serverName=XdebugServer
     ports:
       - "9003:9003"
-      - "9000:9000"
     volumes:
-      - .:/code
+      - ./projetos/php/consumer_ieptb:/api
+  web:
+    container_name: mynginx_php
+    image: mynginx:1
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    volumes:
+      - ./projetos/php/consumer_ieptb:/api
+    ports:
+      - "8080:80"
 
-extra_hosts:
-  - "host.docker.internal:host-gateway"
+#https://github.com/ricorocks-Digital-Agency/soap#parameters

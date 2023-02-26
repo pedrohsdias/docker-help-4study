@@ -3,7 +3,7 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
-'!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
 
 !define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
@@ -78,6 +78,8 @@ Container_Boundary(aCB, "Limites container"){
     Person_Ext(aPExt, , "Pessoa Externa", $tags="anonymous_ext")
 }
 
+AddElementTag("microService", $shape=EightSidedShape(), $legendText="micro service (eight sided) (no text, no back color)")
+Container(services, "Services", "techn", $tags="microService")
 
 
 '(from, to, label, ?techn, ?descr, ?sprite, ?tags, $link)

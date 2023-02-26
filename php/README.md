@@ -34,7 +34,7 @@ docker stop myphp7-fpm && docker rm myphp7-fpm && docker rmi myphp:7-fpm
 Compose
 
 ```sh
-docker-compose --env-file ./conf/envs/php7_up_dev.env config up
+docker-compose --env-file ./php/envs/php7_up_dev.env config up
 ```
 
 # PHP 8
@@ -66,7 +66,7 @@ docker stop myphp8.1-fpm && docker rm myphp8.1-fpm && docker rmi myphp:8.1-fpm
 Compose
 
 ```sh
-docker-compose --env-file ./conf/envs/php8_up_dev.env config up
+docker-compose --env-file ./php/envs/php8_up_dev.env config up
 ```
 # PHP 8-apache
 
