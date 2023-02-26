@@ -1,0 +1,25 @@
+services:
+  db_mysql:
+    container_name: mysql_general
+    image: mysql:5.7
+    # restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - db
+    volumes:
+      - db:/var/lib/mysql
+      - ./mysqldump/:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306
+networks:
+  db:
+    name: db
+volumes:
+  db:
+  #docker run --rm -it -d --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+  #docker compose -f  mysql.yml up --remove-orphans --build -d 

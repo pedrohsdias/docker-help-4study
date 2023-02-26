@@ -1,0 +1,28 @@
+services:
+  db_mysql:
+    image: mysql:5.7
+    # restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - db
+    volumes:
+      - db:/var/lib/mysql
+      - ./mysqldump:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+  adminer:
+    image: adminer
+    # restart: always
+    networks:
+      - db2
+    ports:
+      - 8090:8080
+networks:
+  db:
+volumes:
+  db:

@@ -1,0 +1,19 @@
+services:
+  php-apache: 
+    container_name: php_general
+    image: php:8.1-apache
+    build: 
+      context: ./php
+      dockerfile: Dockerfile.php:8.1-apache
+    environment:
+      - PHP_IDE_CONFIG=serverName=XdebugServer
+    ports:
+      - 10003:9003
+      - 80:80
+    volumes:
+      - ./projetos/php/:/app
+    networks:
+      - db
+networks:
+  db:
+    external: true

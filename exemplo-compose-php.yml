@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  php-fpm: 
+    container_name: php_${PHP_VERSION}
+    image: myphp:${PHP_VERSION}
+    build: 
+      context: .
+      dockerfile: php:${PHP_VERSION}.dockerfile
+    env_file:
+      - php-dev.env
+    environment:
+      - PHP_IDE_CONFIG=serverName=XdebugServer
+    ports:
+      - "9003:9003"
+      - "9000:9000"
+    volumes:
+      - ./projetos/:/code
+
+extra_hosts:
+  - "host.docker.internal:host-gateway"

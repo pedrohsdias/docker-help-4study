@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_DEBUG: 1
+    networks:
+      - db
+    volumes:
+      - wordpress:/var/www/html
+      # - ./projetos/wp:/var/www/html
+      - ./projetos/wp/wp-content/themes:/var/www/html/wp-content/themes/
+      - ./projetos/wp/wp-content/plugins:/var/www/html/wp-content/plugins/
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    networks:
+      - db
+    volumes:
+      - db:/var/lib/mysql
+
+networks:
+  db:
+
+volumes:
+  wordpress:
+  db:
+
+# O curso precisa de pequenas atualizaçõas, o tema disponibilizado precisa de uma alteração no arquivo wp-content/themes/alura/functions.php, no caso ser passada a chave "id"
+# ao registrar a side bar
+# É nescessario ao menos criar a sobreescrita da função  "public function widget($args, $instance)" para não ser nescesario a instalação de plugins adicionais para seguir com o crso
