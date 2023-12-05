@@ -12,12 +12,13 @@ services:
       - db
     volumes:
       - db:/var/lib/mysql
-      - ./mysqldump:/docker-entrypoint-initdb.d
+      - ./db_scripts/mysql:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
+    restart: unless-stopped
   adminer:
     image: adminer
-    # restart: always
+    restart: unless-stopped
     networks:
       - db2
     ports:

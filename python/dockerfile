@@ -1,0 +1,16 @@
+FROM python:3.9
+
+WORKDIR /app
+
+# cria ambiente virtual do projeto, python3 -m venv [nome do ambiente]
+RUN python3 -m venv venv 
+# ativa anbviente virtual
+RUN source venv/bin/activate 
+# instala dependencias
+RUN pip install validate-docbr numpy pytest pytest-cov
+# pip install -r requirements.txt  
+# pytest --cov=codigo tests/ --cov-report term-missing
+# pytest --cov-report xml
+# pytest --junitxml report.xml
+
+CMD ["tail","-f","/dev/null"]

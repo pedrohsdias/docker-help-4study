@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  python-base: 
+    container_name: py
+    image: mypython
+    build: 
+      context: .
+      # dockerfile: 
+    # ports:
+      # - "9000:9000"
+    volumes:
+      - ./aulas/teste-tdd:/app
